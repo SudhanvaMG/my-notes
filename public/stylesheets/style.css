@@ -1,0 +1,26 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+body #homePageHeader {
+  color: white;
+}
+
+#pages {
+  color: rgb(3,169,244);
+}
+
+.cardStyle {
+}
+
+.buttonDesign{
+  padding: 10px;
+}
+
+#leftPanel{
+  text-align: center;
+}
+.homepage{
+  width: auto;
+  height: auto;
+  background-color: rgb(0, 188, 212);
+}
