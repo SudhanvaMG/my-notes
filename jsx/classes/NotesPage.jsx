@@ -64,10 +64,10 @@ var NotesPage = React.createClass({
 
   },
   componentDidMount : function(){
-      this.loadData();
+      
     setInterval((function() {
         this.loadData();
-    }).bind(this), 40000);
+    }).bind(this), 400);
   },
   getInitialState : function (props){
     return {
