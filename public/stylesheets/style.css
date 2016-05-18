@@ -9,18 +9,130 @@ body #homePageHeader {
   color: rgb(3,169,244);
 }
 
-.cardStyle {
-}
+
 
 .buttonDesign{
   padding: 10px;
 }
 
-#leftPanel{
+#homepage{
   text-align: center;
 }
 .homepage{
   width: auto;
   height: auto;
   background-color: rgb(0, 188, 212);
+}
+
+body{
+	background-image: url("https://wallpaperscraft.com/image/laptop_room_on_the_desk_keyboard_mouse_apple_window_interior_73963_1920x1080.jpg");
+  width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5000;
+    background-attachment: fixed;
+    
+}
+
+
+
+
+div.card1{
+  background-color: rgb(255,87,0);
+  opacity: 0.7;
+}
+div.card2{
+  background-color: rgb(3,169,244);
+  opacity: 0.7;
+}
+div.card3{
+  background-color: rgb(178,255,89);
+  opacity: 0.7;
+}
+
+div.title{
+	background-color: rgb(66,66,66);
+
+}
+div.notehead{
+  background-color: rgb(141,110,99);
+
+}
+
+#paper{
+  position: relative;
+ 
+   margin-bottom: -60px;
+   margin-right: -100px;
+}
+ 
+#addds{
+  padding: 20px 0px 0px 1500px;
+  margin-left: -10px;
+  margin-bottom: -100px;
+  margin-top: -100px;
+  text-align: center;
+  position: relative;
+}
+
+div.delds{
+  margin-left: -3000px;
+  margin-bottom: -10px;
+  text-align: center;
+  position: relative;
+}
+img{
+ 
+    max-height: 100%;
+    max-width: auto;  
+}
+div.image{
+  height: 100px;
+  
+  
+
+ 
+  
+}
+
+div.container{
+ padding-top: 50px; 
+  width: 4000px;
+  opacity: 0.95;
+  max-width: 100%;
+  text-align: center;
+  position: relative;
+}
+div.container4{
+ padding-top: 150px;
+ padding-left: 725px;
+ padding-right: 725px;
+  
+  
+}
+
+#cards{
+ padding-top: 50px;
+
+  
+}
+
+#buttons{
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+div.b1{
+ 
+  right: 100px;
+  padding-top: 0px;
+}
+
+div.b2{
+  position: relative;
+   
+  bottom: 40px;
 }

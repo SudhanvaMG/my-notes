@@ -1,28 +1,54 @@
 import React from'react';
 import RaisedButton from 'material-ui/lib/raised-button';
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardHeader from 'material-ui/lib/card/card-header';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
+import Paper from 'material-ui/lib/paper';
+import TextField from 'material-ui/lib/text-field';
+import {orange500, blue500,grey900,grey50} from 'material-ui/lib/styles/colors';
+import FlatButton from 'material-ui/lib/flat-button';
 
 
 var HomePage = React.createClass({
-  _handleClick(e) {
-    e.preventDefault();
-    this.refs.sidebar.handleToggle();
-  },
+  
   render: function() {
     return (
-      <div className="homepage">
-        <br/>
-        <br/>
-        <img src="../../public/images/banner-dayananda-sagar-college-of0engineering.jpg"/>
-        <br/>
-        <h1 id="homePageHeader"> Library Management System</h1>
-        <h3 id="homePageHeader">This is Library Management System designed to facilitate the wroking
-        of in department libray of Information Science Department</h3>
-        <br/>
-        <h3 id="homePageHeader">You can click the top left corner to continue exploring features of the system.</h3>
-           <br/>
-           <br/>
-           {this.props.children}
+    
+      <div className="container4">
+      <form method="POST">
+        <Card >
+          <div className="card">
+            <div className="title">
+            <br/>
+              <CardTitle title="LOG IN " titleColor="white"  />
+            <br/>
+            </div>
+            <CardText><br/><br/><br/>
+              <TextField
+                name = "username"
+                hintText="Enter your name :"      
+                floatingLabelText="User Name"
+              /><br/><br/><br/>
+              <TextField
+                type = "password"
+                name = "password"
+                hintText="Enter your password :"    
+                floatingLabelText="Password"
+              /><br/><br/><br/><br/>
+              <RaisedButton
+                type="submit"
+                className="button"
+                label="SUBMIT"
+              />
+            </CardText><br/><br/>
+          </div>
+        </Card>
+        </form>
       </div>
+      
     );
   }
 

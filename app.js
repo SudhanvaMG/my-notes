@@ -30,57 +30,131 @@ app.use(passport.session());
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://0.0.0.0/library');
 
-var borrowers = mongoose.model('borrowers', { name: String, role : String, id : String, booksIssued : [{ name : String, accessionNumber: String, issuedOn : String }] });
-var users = mongoose.model('users', { name: String, username : String, password : String, privilege : String });
-var books = mongoose.model('books', { name: String, accessionNumber : Number, category : String, author : String, publication : String, edition : String, status : String });
-var search = mongoose.model("search",{value: String});
-
-
-rest.post('/api/registerbook/', function(req, res) {
-    req.body.status = "available";
-    var book = new books(req.body);
-    console.log(req.body, book)
-    book.save(function (err) {
-        if (err) {
-            console.log('Error occured while registering new book.'+err);
-            res.badRequest();
-        } else {
-            res.created();
-        }
-    });
+var users = mongoose.model('users', { 
+    username: String, 
+    password: String ,
+    status: Boolean,
+    notes : [{
+        noteText : String,
+        noteno : Number,
+    }],
+});
+var edit = mongoose.model("edit",{ 
+    text: String,
+    user :String,
 });
 
-app.post("/api/getallbooks/",function(req,res){
-    
-    var book = new books(req.body);
-    book.save(function (err) {
-        if (err) {
-            console.log('Error occured while registering new book.'+err);
+
+
+
+
+app.post('/', function(req, res) {
+    users.find({username:req.body.username},function(err,data){
+        if(err){
+            console.log(error);
             
-        } else {
-            console.log("created");
+        }
+        else if(req.body.password==data[0].password){
+            
+            users.update({username:data[0].username},{status:true},function(err){});
+            res.redirect("/notes");
         }
     });
-    books.find({}, function (err, book) {
-        if (err || book == null) {
-            res.badRequest()
-        } else
-            res.send(book);
+});
+
+
+
+app.get("/notes",function(req,res){
+    
+    res.render("index");
+
+});
+app.post("/notes",function(req,res){
+    users.update({status:true},{status:false},function(err){});
+    res.redirect("/");
+
+});
+app.post("/remove",function(req,res){
+
+
+   users.update({username:req.body.username},{$pull : { "notes" :{noteText : req.body.notes}}},function(err){
+    if(err){
+        console.log("error");
+    }
+    else{
+        console.log("removed");
+    }
+   });
+});
+app.get("/online",function(req,res){
+
+  
+    users.find({status:true},function(err,data){
+        
+      res.send(data[0]);
     });
+});
+
+app.post("/newedit",function(req,res){
+   users.update({"notes.noteText":req.body.oldtext},{$set : { "notes.$.noteText" : req.body.noteText}},function(err){
+    if(err){
+        console.log("error");
+    }
+    else{
+        console.log("updated");
+
+    }
+   });
 
 });
 
-rest.post('/api/registerborrower/', function(req, res) {
-    var borrower = new borrowers(req.body);
-    borrower.save(function (err) {
-        if (err) {
-            console.log('Error occured while registering new borrower.'+err);
-            res.badRequest();
-        } else {
-            console.log('Registration Successful.');
-            res.created();
+
+app.post("/notepost",function(req,res){
+     console.log(req.body);
+    users.find({username:req.body.username},function(err,data){
+        if(err){
+            console.log(error);
+            
+        }
+        else {
+            var oldtext =data[0].notes;
+            var text = req.body.notes;
+            
+            var newtext = {
+                noteText : req.body.notes,
+                noteno : req.body.number,
+            }
+            var finaltext = oldtext.concat(newtext);
+            users.update({username:data[0].username},{notes:finaltext},function(err){});
+            
         }
     });
+});
+
+app.get("/image",function(req,res){
+    res.sendFile("/home/sudhanva/Downloads/1.jpg");
+});
+app.post('/editpost', function(req, res) {
+   edit.remove({},function(){});
+     console.log("working");
+   var edits = new edit();
+   edits.text = req.body.text;
+   edits.user = req.body.username;
+   edits.save(function(err,data){
+    if(err){
+        console.log("error");
+    }
+    
+   });
+
+});
+app.get("/editpost",function(req,res){
+    edit.find({},function(err,data){
+        res.send(data);
+    });
+});
+app.get("/edit",function(req,res){
+    res.render("index");
 });
 
 rest.post('/api/issuebook/', function(req, res) {
@@ -177,14 +251,14 @@ app.post("/api/search",function(req,res){
     });
 });
 
-app.get("/searchresult",function(req,res){
+app.get("/getallusers",function(req,res){
 
-    search.find({},function(err,data){
+    users.find({},function(err,data){
         if(err){
             console.log("error is finding");
         }
         
-        res.send(data[0].value);
+        res.send(data);
     });
 });
 
