@@ -157,99 +157,6 @@ app.get("/edit",function(req,res){
     res.render("index");
 });
 
-rest.post('/api/issuebook/', function(req, res) {
-    var bid = req.body.bid;
-    var accessionNumber = req.body.accessionNumber;
-    function checkBookIssued (accessionNumber, id) {
-        //Check book issued to this borrower or not
-    }
-    borrowers.findOne({ 'id' : bid }, function (err, borrower) {
-        if (err) {
-            console.log("Borrower not found.");
-            res.badRequest();
-        } else {
-            books.findOne({ "accessionNumber": accessionNumber }, function (err, book) {
-                if (err || book == null) {
-                    console.log("Book not found.");
-                    res.badRequest();
-                } else {
-                    var datetime = new Date();
-                    borrower.booksIssued.push({ "accessionNumber" : accessionNumber, "issuedOn" : datetime });
-                    borrower.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while issuing book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
-
-
-rest.post('/api/returnbook/', function(req, res) {
-    var bid = req.body.bid;
-    var accessionNumber = req.body.accessionNumber;
-
-
-    borrowers.findOne({ 'id' : bid }, function (err, borrower) {
-        if (err) {
-            console.log("Borrower not found.");
-            res.badRequest();
-        } else {
-            books.findOne({ "accessionNumber": accessionNumber }, function (err, book) {
-                if (err || book == null) {
-                    console.log("Book not found.");
-                    res.badRequest();
-                } else {
-                    borrower.booksIssued = null;
-                    borrower.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while returning book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                    var datetime = new Date();
-                    book.history = { 'bid' : borrower.id, 'returnDate' : datetime };
-                    book.save(function (err) {
-                        if (err) {
-                            console.log('Error occured while returning book.'+err);
-                            res.badRequest();
-                        } else {
-                            res.created();
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
-app.post("/api/search",function(req,res){
-    search.remove(function(err,removed){
-        if(err){
-            console.log("error in deleting");
-        }
-    });
-    var searchVal = new search();
-    searchVal.value = req.body.value;
-    searchVal.save(function(err,data){
-        if(err){
-            console.log("error in saving");
-        }
-        else{
-            
-            res.send(data.value);
-
-        }
-    });
-});
 
 app.get("/getallusers",function(req,res){
 
@@ -263,19 +170,6 @@ app.get("/getallusers",function(req,res){
 });
 
 
-app.get('/api/getallbooks/', function(req, res) {
-
-    books.find({}, function (err, book) {
-        if (err || book == null) {
-            res.badRequest()
-        } else
-           var bookvalue = [];
-            book.forEach(function(data){
-                bookvalue.push(data.name);
-            });
-        res.send(bookvalue);    
-    });
-});
 
 
 passport.serializeUser(function(user, done) {
